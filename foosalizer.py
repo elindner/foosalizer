@@ -52,7 +52,9 @@ class IndexHandler(FoosalizerHandler):
       matches = query.fetch(3)
     stats = analyser.AnalyseHighLevel(player.nickname)
 
-    logging.debug('stats are: %s' % stats)
+    if len(matches):
+      logging.info(matches[0].to_xml())
+
     data = {
       'player': player,
       'matches': matches,
@@ -101,7 +103,7 @@ class ResultsHandler(FoosalizerHandler):
     match_key = db.Key(self.request.get('match'))
     match = Match.get(match_key)
     query = Goal.all()
-    query.filter('match =', match_key).order('kickoff')
+    query.filter('match =', match_key).order('time')
     goals = query.fetch(1000)  # how many?
     data = {
       'match': match,
