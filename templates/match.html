@@ -50,7 +50,7 @@
       <button type="button" id="undo" class="hidden">undo</button>
       <button type="button" id="done" class="hidden">done</button>
     </div>
-    <form id="form" class="hidden" method="post" action="/savematch">
+    <form id="form" class="hidden" method="post" action="{% url SaveMatch %}">
       <input id="json_data" name="json_data" autocomplete="off" value=""/>
     </form>
   </body>

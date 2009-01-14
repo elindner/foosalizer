@@ -11,7 +11,7 @@
       <span>{{ player.nickname }}</span> |
       <a id="sign-out" href="{{ logout_url }}">Sign out</a>
     </div>
-    <a href="/match">Start a new match</a>
+    <a href="{% url NewMatch %}">Start a new match</a>
     <h2>Your recent matches</h2>
 
    {% if matches %}
@@ -22,11 +22,13 @@
         <tr>
           <td>{{ match.creator }}</td>
           <td>{{ match.kickoff }}</td>
-          <td><a href="/analysis?match={{ match.key }}">view details</a></td>
+          <td>
+            <a href = "{% url MatchAnalysis match.key %}">view details</a>
+          </td>
         </tr>
        {% endfor %}
         <tr><td colspan="3">
-           <a href="/?show_all_matches=1">show all</a></td></tr>
+           <a href="{% url Index show_all_matches=1 %}">show all</a></td></tr>
       </tbody>
     </table>
    {% else %}
@@ -46,7 +48,7 @@
               with {{ stats.nemesis.goals }} goals</td></tr>
      {% endif %}
       <tr><td colspan="2">
-          <a href="/analysis?player={{ player.nickname }}">more stats</a>
+          <a href="{% url PlayerAnalysis player.nickname %}">more stats</a>
       </td></tr>
     </table>
     <br/>

@@ -2,8 +2,8 @@
   {% include '_webkit.html' %}
   <head>
     <title>Foosalyzer</title>
-    <link rel="stylesheet" href="static/foosalizer.css" />
-    <link rel="stylesheet" href="static/results.css" />
+    <link rel="stylesheet" href="/static/foosalizer.css" />
+    <link rel="stylesheet" href="/static/results.css" />
   </head>
   <body>
     <h1>Match Results</h1>
@@ -27,9 +27,9 @@
     </table>
 
     <br/>
-    <a href="/match">New game!</a>
+    <a href="{% url NewMatch %}">New game!</a>
     <br/><br/>
-    <a href="/">To front page</a>
+    <a href="{% url Index %}">To front page</a>
   </body>
 </html>
 

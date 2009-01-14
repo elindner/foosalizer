@@ -1,0 +1,22 @@
+<html>
+  <head>
+    <title>Foosalyzer</title>
+    <link rel="stylesheet" href="static/foosalizer.css" />
+    <link rel="stylesheet" href="static/analysis.css" />
+  </head>
+  <body>
+    <h1>Player Analysis</h1>
+    <h2>Player: {{ player }}</h2>
+
+    {% for pies in stats %}
+      <h4>{{ pies.name }}</h4>
+      {% for url in pies.urls %}
+        <img src="{{ url }}"/>
+      {% endfor %}
+    {% endfor %}
+
+    <br/>
+    <a href="{% url Index %}">To front page</a>
+  </body>
+</html>
+
