@@ -14,7 +14,6 @@ from google.appengine.ext import db
 from google.appengine.api import users
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
-from google.appengine.ext.webapp.util import run_wsgi_app
 
 from models import Goal
 from models import Match
@@ -43,13 +42,21 @@ class FoosalizerHandler(webapp.RequestHandler):
 class IndexHandler(FoosalizerHandler):
   def get(self):
     player = self.GetPlayer()
-    query = Match.all()
-    query.filter('players =', player.nickname).order('kickoff')
-    matches = query.fetch(1000)
+    show_all_matches = self.request.get('show_all_matches')
 
+    query = Match.all()
+    query.filter('players =', player.nickname).order('-kickoff')
+    if show_all_matches:
+      matches = query.fetch(1000)
+    else:
+      matches = query.fetch(3)
+    stats = analyser.AnalyseHighLevel(player.nickname)
+
+    logging.debug('stats are: %s' % stats)
     data = {
       'player': player,
       'matches': matches,
+      'stats': stats,
       'logout_url': users.create_logout_url('/'),
     }
     self.Render('index.html', data)
@@ -94,8 +101,8 @@ class ResultsHandler(FoosalizerHandler):
     match_key = db.Key(self.request.get('match'))
     match = Match.get(match_key)
     query = Goal.all()
-    query.filter('match =', match_key).order('time')
-    goals = query.fetch(1000) # how many?
+    query.filter('match =', match_key).order('kickoff')
+    goals = query.fetch(1000)  # how many?
     data = {
       'match': match,
       'goals': goals,
@@ -114,7 +121,7 @@ class AnalysisHandler(FoosalizerHandler):
       match = Match.get(db.Key(match_key))
       query.filter('match =', match)
 
-    if player != '':
+    if player not in ('', 'all'):
       if player != 'all':
         query.filter('player =', player)
 
@@ -125,9 +132,9 @@ class AnalysisHandler(FoosalizerHandler):
       pies = {'name': name, 'urls': []}
       for player, data in analysis.iteritems():
         pie = pygooglechart.PieChart3D(250, 100)
-        pie.set_pie_labels(data[0])
+        pie.set_pie_labels(str(data[1]))
         pie.add_data(data[1])
-        pie.set_legend([str(x) for x in data[1]])
+        pie.set_legend([str(x) for x in data[0]])
         pie.set_title(player)
         pies['urls'].append(pie.get_url())
 

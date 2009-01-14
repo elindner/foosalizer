@@ -5,21 +5,51 @@
     <link rel="stylesheet" href="static/foosalizer.css" />
   </head>
   <body>
+  <div id="main">
     <h1>Foosalizer</h1>
-    Welcome, {{ player.nickname }}. <a href="{{ logout_url }}">log out</a>
-    <br/>
-    Your matches:
-    <ul>
-      {% for match in matches %}
-      <li>
-        <a href="/analysis?match={{ match.key }}">
-          {{ match.creator }}'s game on {{ match.kickoff }}
-        </a>
-      </li>
-      {% endfor %}
-    </ul>
-    <a href="/analysis?player={{ player.nickname }}">Your all time stats</a>
-    <br/>
+    <div id="header">
+      <span>{{ player.nickname }}</span> |
+      <a id="sign-out" href="{{ logout_url }}">Sign out</a>
+    </div>
     <a href="/match">Start a new match</a>
+    <h2>Your recent matches</h2>
+
+   {% if matches %}
+    <table>
+      <thead><tr><th>Creator</th><th>Time</th><th>&nbsp;</th></tr></thead>
+      <tbody>
+       {% for match in matches %}
+        <tr>
+          <td>{{ match.creator }}</td>
+          <td>{{ match.kickoff }}</td>
+          <td><a href="/analysis?match={{ match.key }}">view details</a></td>
+        </tr>
+       {% endfor %}
+        <tr><td colspan="3">
+           <a href="/?show_all_matches=1">show all</a></td></tr>
+      </tbody>
+    </table>
+   {% else %}
+    You have no matches.
+   {% endif %}
+    <h2>Your stats</h2>
+    <table>
+      <tr><td class="w">Goals scored</td><td>{{ stats.goals_scored }}</td></tr>
+      <tr><td class="w">Goals conceded</td>
+          <td>{{ stats.goals_conceded }}</td></tr>
+     {% if stats.goals_scored %}
+      <tr><td>Fastest goal</td><td>{{ stats.fastest_goal }} sec</td></tr>
+     {% endif %}
+      <tr><td>Goals in a row</td><td>{{ stats.goals_in_a_row }}</td></tr>
+     {% if stats.goals_conceded %}
+      <tr><td>Nemesis</td><td><b>{{ stats.nemesis.player }}</b>
+              with {{ stats.nemesis.goals }} goals</td></tr>
+     {% endif %}
+      <tr><td colspan="2">
+          <a href="/analysis?player={{ player.nickname }}">more stats</a>
+      </td></tr>
+    </table>
+    <br/>
+  </div>
   </body>
 </html>

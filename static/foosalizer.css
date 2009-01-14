@@ -1,4 +1,51 @@
 body {
-  font-family: Helvetica;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 2px;
 }
 
+a:visited {
+  color: blue;
+}
+
+h1 {
+  border-bottom: 1px solid #eee;
+  color: #222;
+  margin: 0 0 10px 0;
+  padding: 0;
+  font-weight: normal;
+}
+
+table {
+  width: 100%;
+}
+table td,
+table th {
+  border-bottom: 1px solid #eee;
+}
+table th {
+  text-align: left;
+}
+table td.w {
+  width: 60%;
+}
+
+h2 {
+  font-weight: normal;
+  font-size: 1.1em;
+  color: #444;
+}
+
+div#header {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+div#main {
+  height: 320px;
+  position: relative;
+  width: 480px;
+  /* Uncomment to show screen size guide. */
+  /* border: 1px solid #ddf; */
+}
