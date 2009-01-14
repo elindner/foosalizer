@@ -1,0 +1,23 @@
+<html>
+  {% include '_webkit.html' %}
+  <head>
+    <title>Foosalizer</title>
+    <link rel="stylesheet" href="static/foosalizer.css" />
+  </head>
+  <body>
+    <h1>Admin</h1>
+    Welcome, {{ user.nickname }}. <a href="{{ logout_url }}">log out</a>
+    <br/>
+    Matches:
+    <form action="/admin/delete" method="post">
+      {% for match in matches %}
+        <input name="match" type="checkbox" id="{{ match.key }}" value="{{ match.key }}">
+        <label for="{{ match.key }}">
+        {{ match.creator }}'s game on {{ match.kickoff }}
+        </label>
+        <br/>
+      {% endfor %}
+      <button type="submit">Delete</button>
+    </form>
+  </body>
+</html>

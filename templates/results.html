@@ -1,0 +1,35 @@
+<html>
+  {% include '_webkit.html' %}
+  <head>
+    <title>Foosalyzer</title>
+    <link rel="stylesheet" href="static/foosalizer.css" />
+    <link rel="stylesheet" href="static/results.css" />
+  </head>
+  <body>
+    <h1>Match Results</h1>
+    Kick off: {{ match.kickoff|date:"D d M Y @ H:m:s" }}<br/>
+    Goals
+    <table>
+      <tr>
+        <td>Time (s)</td>
+        <td>Scored by</td>
+        <td>Scored from</td>
+        <td>Pwned</td>
+      </tr>
+      {% for goal in goals %}
+      <tr>
+        <td class="{{ goal.team }}">{{ goal.time }}s</td>
+        <td class="{{ goal.team }}">{{ goal.player }}</td>
+        <td class="{{ goal.team }}">{{ goal.position }}</td>
+        <td class="{{ goal.team }}">{{ goal.opponent_back }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+
+    <br/>
+    <a href="/match">New game!</a>
+    <br/><br/>
+    <a href="/">To front page</a>
+  </body>
+</html>
+

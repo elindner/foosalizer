@@ -1,0 +1,44 @@
+<html>
+  <head>
+    <title>Foosalyzer</title>
+    <link rel="stylesheet" href="static/foosalizer.css" />
+    <link rel="stylesheet" href="static/analysis.css" />
+  </head>
+  <body>
+    <h1>{% if match %}Match{% else %}Player{% endif %} Analysis</h1>
+
+    {% if match %}
+    Kick off: {{ match.kickoff|date:"D d M Y @ H:m:s" }}<br/>
+    Goals
+    <table>
+      <tr>
+        <td>Time (s)</td>
+        <td>Scored by</td>
+        <td>Scored from</td>
+        <td>Pwned</td>
+      </tr>
+      {% for goal in goals %}
+      <tr>
+        <td class="{{ goal.team }}">{{ goal.time }}s</td>
+        <td class="{{ goal.team }}">{{ goal.player }}</td>
+        <td class="{{ goal.team }}">{{ goal.position }}</td>
+        <td class="{{ goal.team }}">{{ goal.opponent_back }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    {% else %}
+      <h2>Player: {{ player }}</h2>
+    {% endif %}
+
+    {% for pies in stats %}
+      <h4>{{ pies.name }}</h4>
+      {% for url in pies.urls %}
+        <img src="{{ url }}"/>
+      {% endfor %}
+    {% endfor %}
+
+    <br/>
+    <a href="/">To front page</a>
+  </body>
+</html>
+

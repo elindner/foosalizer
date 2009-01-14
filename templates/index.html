@@ -1,0 +1,25 @@
+<html>
+  {% include '_webkit.html' %}
+  <head>
+    <title>Foosalizer</title>
+    <link rel="stylesheet" href="static/foosalizer.css" />
+  </head>
+  <body>
+    <h1>Foosalizer</h1>
+    Welcome, {{ player.nickname }}. <a href="{{ logout_url }}">log out</a>
+    <br/>
+    Your matches:
+    <ul>
+      {% for match in matches %}
+      <li>
+        <a href="/analysis?match={{ match.key }}">
+          {{ match.creator }}'s game on {{ match.kickoff }}
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+    <a href="/analysis?player={{ player.nickname }}">Your all time stats</a>
+    <br/>
+    <a href="/match">Start a new match</a>
+  </body>
+</html>

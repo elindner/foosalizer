@@ -1,0 +1,58 @@
+<html>
+  {% include '_webkit.html' %}
+  <head>
+    <title>Foosalyzer</title>
+    <link rel="stylesheet" href="static/foosalizer.css" />
+    <link rel="stylesheet" href="static/match.css" />
+    <script type="text/javascript" src="static/util.js"></script>
+    <script type="text/javascript" src="static/match.js"></script>
+    <script type="text/javascript">
+      var PLAYERS = [{% for player in players %}'{{ player }}',{% endfor %}];
+    </script>
+  </head>
+  <body>
+    <table class="table">
+      <tr>
+        <td class="player red front">
+          <select id="select_red_front"></select>
+          <span id="red_front" class="hidden"></span>
+        </td>
+        <td class="swap red">
+          <span id="swap_red" class="hidden">&harr;</span>
+        </td>
+        <td class="player red back">
+          <select id="select_red_back"></select>
+          <span id="red_back" class="hidden"></span>
+        </td>
+        <td class="score red">
+          <span id="score_red">0</span>
+        </td>
+      </tr>
+      <tr>
+        <td class="player blue back">
+          <select id="select_blue_back"></select>
+          <span id="blue_back" class="hidden"></span>
+        </td>
+        <td class="swap blue">
+          <span id="swap_blue" class="hidden">&harr;</span>
+        </td>
+        <td class="player blue front">
+          <select id="select_blue_front"></select>
+          <span id="blue_front" class="hidden"></span>
+        </td>
+        <td class="score blue">
+          <span id="score_blue">0</span>
+        </td>
+      </tr>
+    </table>
+    <div class="buttons">
+      <button type="button" id="start">start</button>
+      <button type="button" id="undo" class="hidden">undo</button>
+      <button type="button" id="done" class="hidden">done</button>
+    </div>
+    <form id="form" class="hidden" method="post" action="/savematch">
+      <input id="json_data" name="json_data" autocomplete="off" value=""/>
+    </form>
+  </body>
+</html>
+

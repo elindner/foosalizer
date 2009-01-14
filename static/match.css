@@ -1,0 +1,70 @@
+body {
+  padding: 0;
+  margin: 0;
+  background-color: black;
+}
+
+table.table {
+  width: 100%;
+  height: 235px;
+  border-collapse: collapse;
+}
+
+td {
+  border: 1px dotted black;
+  text-align: center;
+  vertical-align: middle;
+  padding: 0;
+}
+
+td.player {
+  width: 120px;
+  height: 100px;
+}
+
+td.swap {
+  width: 10%;
+}
+
+td.score {
+  width: 12%;
+}
+
+td.player select {
+  font-size: 10px;
+  padding: 4px;
+}
+
+td.player span,
+td.swap span,
+td.score span {
+  padding-top: 32px;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 42px;
+  height: 100%;
+  display: block;
+  color: black;
+  text-shadow: 1px 1px 1px white;
+}
+
+td.blue {
+  background-color: #8080ff;
+}
+
+td.red {
+  background-color: #ff8080;
+}
+
+.hidden {
+  display: none !important;
+}
+
+div.buttons {
+  text-align: right;
+}
+
+div.buttons button {
+  font-size: 16px;
+}
+
