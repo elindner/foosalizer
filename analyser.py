@@ -10,14 +10,14 @@ class Analyser(object):
     self.name = self.__class__.__name__
     self.data = {}
 
+  def Collect(self, goal, previous_goal, next_goal):
+    raise NotImplemented
+
   def GetResults(self):
-    result = {}
-    for player, data in self.data.iteritems():
-      result[player] = (tuple(data.keys()), tuple(data.values()))
-    return result
+    return {'name': self.name, 'data': self.data}
 
 
-class GoalsByPosition(Analyser):
+class GoalsByPosition__(Analyser):
   def Collect(self, goal):
     self.data.setdefault(goal.player, {'front': 0, 'back': 0})
     self.data[goal.player].setdefault(goal.position, 0)
@@ -71,7 +71,6 @@ class GoalsInARow(Analyser):
     self.match_key = None
 
   def MaybeUpdatePlayerCount(self):
-    logging.debug('%s/%s:%s' % (self.player, self.match_key, self.count))
     self.data.setdefault(self.player, 1)
     if self.data[self.player] < self.count:
       self.data[self.player] = self.count
@@ -99,7 +98,38 @@ class GoalsInARow(Analyser):
     return result
 
 
+class GoalsByPosition(Analyser):
+  def Collect(self, goal, next, previous):
+    self.data.setdefault(goal.player, {'front': 0, 'back': 0})
+    self.data[goal.player].setdefault(goal.position, 0)
+    self.data[goal.player][goal.position] += 1
 
+
+class TotalGoals(Analyser):
+  def Collect(self, goal, next, previous):
+    self.data.setdefault(goal.player, 0)
+    self.data[goal.player] += 1
+
+
+def Analyse(goals, analysers_classes):
+  analysers = [analyser_class() for analyser_class in analysers_classes]
+  for i in xrange(len(goals)):
+    previous = None
+    next = None
+    if i > 0: previous = goals[i - 1]
+    if i < len(goals) - 1: next = goals[i + 1]
+
+    for analyser in analysers:
+      analyser.Collect(goals[i], previous, next)
+
+  results = {}
+  for analyser in analysers:
+    results[analyser.name] = analyser.GetResults()
+
+  return results
+
+
+"""
 def Analyse(goals):
   analysers = [
       GoalsByPosition(),
@@ -187,3 +217,4 @@ def AnalyseHighLevel(nickname):
     stat_values[name] = fn()
 
   return stat_values
+"""

@@ -19,8 +19,6 @@ from models import Goal
 from models import Match
 from models import Player
 
-import analyser
-
 
 class FoosalizerHandler(webapp.RequestHandler):
   def GetPlayer(self):
@@ -40,7 +38,7 @@ class FoosalizerHandler(webapp.RequestHandler):
 
 
 class Index(FoosalizerHandler):
-  def get(self):
+  def get(self, show_all_matches=False):
     player = self.GetPlayer()
     show_all_matches = self.request.get('show_all_matches')
 
@@ -50,17 +48,13 @@ class Index(FoosalizerHandler):
       matches = query.fetch(1000)
     else:
       matches = query.fetch(3)
-    stats = analyser.AnalyseHighLevel(player.nickname)
-
-    if len(matches):
-      logging.info(matches[0].to_xml())
 
     data = {
       'player': player,
       'matches': matches,
-      'stats': stats,
       'logout_url': users.create_logout_url('/'),
     }
+
     self.Render('index.html', data)
 
 
@@ -116,18 +110,10 @@ class MatchAnalysis(FoosalizerHandler):
     match = Match.get(db.Key(match_key))
     goals = Goal.all().filter('match =', match).fetch(1000) # how many?
 
-    stats = []
-    for name, analysis in analyser.Analyse(goals).iteritems():
-      pies = {'name': name, 'urls': []}
-      for player, data in analysis.iteritems():
-        pie = pygooglechart.PieChart3D(250, 100)
-        pie.set_pie_labels(str(data[1]))
-        pie.add_data(data[1])
-        pie.set_legend([str(x) for x in data[0]])
-        pie.set_title(player)
-        pies['urls'].append(pie.get_url())
-
-      stats.append(pies)
+    stats = analyser.Analyse(goals, [
+      analyser.TotalGoals,
+      analyser.GoalsByPosition,
+    ])
 
     data = {
       'match': match,

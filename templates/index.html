@@ -22,18 +22,24 @@
         <tr>
           <td>{{ match.creator }}</td>
           <td>{{ match.kickoff }}</td>
+          <!--
           <td>
             <a href = "{% url MatchAnalysis match.key %}">view details</a>
           </td>
+          -->
         </tr>
        {% endfor %}
         <tr><td colspan="3">
-           <a href="{% url Index show_all_matches=1 %}">show all</a></td></tr>
+          {% comment %}
+          See how to do this with "url Index show_all_matches=1".
+          {% endcomment %}
+          <a href="/?show_all_matches=1">show all</a></td></tr>
       </tbody>
     </table>
    {% else %}
     You have no matches.
    {% endif %}
+   <!--
     <h2>Your stats</h2>
     <table>
       <tr><td class="w">Goals scored</td><td>{{ stats.goals_scored }}</td></tr>
@@ -52,6 +58,7 @@
       </td></tr>
     </table>
     <br/>
+    -->
   </div>
   </body>
 </html>

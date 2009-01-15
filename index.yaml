@@ -10,7 +10,7 @@ indexes:
 # automatically uploaded to the admin console when you next deploy
 # your application using appcfg.py.
 
-# Used 14 times in query history.
+# Used 16 times in query history.
 - kind: Goal
   properties:
   - name: match
@@ -29,7 +29,7 @@ indexes:
   - name: players
   - name: kickoff
 
-# Used 38 times in query history.
+# Used 71 times in query history.
 - kind: Match
   properties:
   - name: players

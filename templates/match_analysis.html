@@ -25,12 +25,19 @@
       {% endfor %}
     </table>
 
-    {% for pies in stats %}
-      <h4>{{ pies.name }}</h4>
-      {% for url in pies.urls %}
-        <img src="{{ url }}"/>
-      {% endfor %}
+    <hr/>
+
+    Total Goals:<br/>
+    <img src="http://chart.apis.google.com/chart?cht=p3&chd=t:{{ stats.TotalGoals.data.values|join:"," }}&chs=250x100&chl={{ stats.TotalGoals.data.values|join:"|" }}&chdl={{ stats.TotalGoals.data.keys|join:"|" }}"/>
+
+    <hr/>
+
+    Goals by Position:<br/>
+    {% for p in stats.GoalsByPosition.data.items %}
+      <img src="http://chart.apis.google.com/chart?chtt={{ p.0 }}&cht=p3&chd=t:{{ p.1.values|join:"," }}&chs=250x100&chl={{ p.1.values|join:"|" }}&chdl={{ p.1.keys|join:"|" }}"/>
     {% endfor %}
+
+    <hr/>
 
     <br/>
     <a href="{% url Index %}">To front page</a>
