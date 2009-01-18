@@ -8,6 +8,16 @@
     <h1>Admin</h1>
     Welcome, {{ user.nickname }}. <a href="{{ logout_url }}">log out</a>
     <br/>
+    Players:
+    <ul>
+    {% for player in players %}
+    <li>
+      {{ player.nickname }}
+      <a href="{% url RebuildStats player.key %}">rebuild stats</a>
+    </li>
+    {% endfor %}
+    <li><a href="{% url RebuildStats "all" %}">rebuild all</a></li>
+    </ul>
     Matches:
     <form action="/admin/delete" method="post">
       {% for match in matches %}

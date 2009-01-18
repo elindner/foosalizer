@@ -1,5 +1,5 @@
 application: foosalizer
-version: 2
+version: 3
 runtime: python
 api_version: 1
 
@@ -11,6 +11,10 @@ handlers:
 - url: /admin/*.*
   script: admin.py
   login: admin
+
+- url: /gviz/.*
+  script: gviz.py
+  login: required
 
 - url: /.*
   script: foosalizer.py

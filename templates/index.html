@@ -21,7 +21,7 @@
        {% for match in matches %}
         <tr>
           <td>{{ match.creator }}</td>
-          <td>{{ match.kickoff }}</td>
+          <td>{{ match.kickoff|date:"D d M Y @ P" }}</td>
           <!--
           <td>
             <a href = "{% url MatchAnalysis match.key %}">view details</a>
@@ -30,35 +30,57 @@
         </tr>
        {% endfor %}
         <tr><td colspan="3">
-          {% comment %}
-          See how to do this with "url Index show_all_matches=1".
-          {% endcomment %}
           <a href="/?show_all_matches=1">show all</a></td></tr>
       </tbody>
     </table>
    {% else %}
     You have no matches.
    {% endif %}
-   <!--
+
     <h2>Your stats</h2>
     <table>
-      <tr><td class="w">Goals scored</td><td>{{ stats.goals_scored }}</td></tr>
-      <tr><td class="w">Goals conceded</td>
-          <td>{{ stats.goals_conceded }}</td></tr>
-     {% if stats.goals_scored %}
-      <tr><td>Fastest goal</td><td>{{ stats.fastest_goal }} sec</td></tr>
-     {% endif %}
-      <tr><td>Goals in a row</td><td>{{ stats.goals_in_a_row }}</td></tr>
-     {% if stats.goals_conceded %}
-      <tr><td>Nemesis</td><td><b>{{ stats.nemesis.player }}</b>
-              with {{ stats.nemesis.goals }} goals</td></tr>
-     {% endif %}
-      <tr><td colspan="2">
-          <a href="{% url PlayerAnalysis player.nickname %}">more stats</a>
+      <tr>
+        <td>Matches played:</td>
+        <td>{{ current_stats.matches_played|default:"none" }}</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>Goals scored</td>
+        <td>
+          {{ current_stats.goals_scored|default:"none" }}
+          (lethality: {{ current_stats.lethality|default:0|floatformat:2 }})
+        </td>
+        <td>
+          <img src="http://chart.apis.google.com/chart?cht=ls&chs=100x25&chds=0,10&chd=t:{{ charts.lethality|join:"," }}&chco=FF0000">
+        </td>
+      </tr>
+      <tr>
+        <td>Goals conceded</td>
+        <td>
+          {{ current_stats.goals_conceded|default:"none" }}
+          (pwnability: {{ current_stats.pwnability|default:0|floatformat:2 }})
+        </td>
+        <td>
+          <img src="http://chart.apis.google.com/chart?cht=ls&chs=100x25&chds=0,10&chd=t:{{ charts.pwnability|join:"," }}&chco=00FF00"/>
+        </td>
+      </tr>
+      <tr>
+        <td>Awesomeness</td>
+        <td>
+          {{ current_stats.awesomeness|default:0|floatformat:2 }}
+        </td>
+        <td>
+          <img src="http://chart.apis.google.com/chart?cht=ls&chs=100x25&chds=0,10&chd=t:{{ charts.awesomeness|join:"," }}&chco=0000FF">
+        </td>
+      </tr>
+      <tr>
+        <td colspan="3">
+        <a href="{% url Charts %}">charts</a>
       </td></tr>
     </table>
+    <div id="chart_div"></div>
     <br/>
-    -->
+
   </div>
   </body>
 </html>

@@ -3,41 +3,51 @@
     <title>Foosalyzer</title>
     <link rel="stylesheet" href="/static/foosalizer.css" />
     <link rel="stylesheet" href="/static/analysis.css" />
+
+    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+    <script type="text/javascript" charset="utf-8">
+      // Load the Visualization API and the piechart package.
+      google.load('visualization', '1', {'packages':['piechart', 'table', 'barchart', 'motionchart']});
+      google.setOnLoadCallback(initialize);
+
+      function initialize() {
+        var query = new google.visualization.Query('/gviz/match/{{ match_key }}');
+        query.send(handleQueryResponse);
+      }
+
+      function handleQueryResponse(response) {
+        if (response.isError()) {
+          alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+          return;
+        }
+
+        var data = response.getDataTable();
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+
+        chart.draw(data, {height: 200, width: 300, is3D: true, title: 'Total Goals'});
+      }
+
+    </script>
+
   </head>
   <body>
     <h1>Match Analysis</h1>
     Kick off: {{ match.kickoff|date:"D d M Y @ H:m:s" }}<br/>
     Goals
-    <table>
-      <tr>
-        <td>Time (s)</td>
-        <td>Scored by</td>
-        <td>Scored from</td>
-        <td>Pwned</td>
-      </tr>
-      {% for goal in goals %}
-      <tr>
-        <td class="{{ goal.team }}">{{ goal.time }}s</td>
-        <td class="{{ goal.team }}">{{ goal.player }}</td>
-        <td class="{{ goal.team }}">{{ goal.position }}</td>
-        <td class="{{ goal.team }}">{{ goal.opponent_back }}</td>
-      </tr>
-      {% endfor %}
-    </table>
 
+    <!--
     <hr/>
-
     Total Goals:<br/>
     <img src="http://chart.apis.google.com/chart?cht=p3&chd=t:{{ stats.TotalGoals.data.values|join:"," }}&chs=250x100&chl={{ stats.TotalGoals.data.values|join:"|" }}&chdl={{ stats.TotalGoals.data.keys|join:"|" }}"/>
-
     <hr/>
-
     Goals by Position:<br/>
     {% for p in stats.GoalsByPosition.data.items %}
       <img src="http://chart.apis.google.com/chart?chtt={{ p.0 }}&cht=p3&chd=t:{{ p.1.values|join:"," }}&chs=250x100&chl={{ p.1.values|join:"|" }}&chdl={{ p.1.keys|join:"|" }}"/>
     {% endfor %}
-
     <hr/>
+    -->
+
+    <div id="chart_div"></div>
 
     <br/>
     <a href="{% url Index %}">To front page</a>

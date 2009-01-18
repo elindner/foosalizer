@@ -10,7 +10,7 @@ indexes:
 # automatically uploaded to the admin console when you next deploy
 # your application using appcfg.py.
 
-# Used 16 times in query history.
+# Used 31 times in query history.
 - kind: Goal
   properties:
   - name: match
@@ -23,15 +23,34 @@ indexes:
   - name: time
     direction: desc
 
-# Unused in query history -- copied from input.
+# Used 187 times in query history.
 - kind: Match
   properties:
   - name: players
   - name: kickoff
 
-# Used 71 times in query history.
+# Used 338 times in query history.
 - kind: Match
   properties:
   - name: players
   - name: kickoff
+    direction: desc
+
+# Used 16 times in query history.
+- kind: PlayerStats
+  properties:
+  - name: date
+    direction: desc
+
+# Used 109 times in query history.
+- kind: PlayerStats
+  properties:
+  - name: player
+  - name: date
+
+# Used 369 times in query history.
+- kind: PlayerStats
+  properties:
+  - name: player
+  - name: date
     direction: desc
